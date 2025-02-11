@@ -6,7 +6,7 @@ class Graph:
 
     def __init__(self, filename: str, name: str):
         try:
-            with open(f'../data/{filename}') as f:
+            with open(f'./data/{filename}') as f:
                 data: dict = json.load(f)
                 adjList: dict[str, list[int]] = data[name]
                 self.vertices = [int(vertex) for vertex in adjList.keys()]
@@ -16,7 +16,7 @@ class Graph:
             print(f'Current path: {getcwd()}')
 
     def draw(self) -> graphviz.Graph:
-        from config import graphvizConfig, graphvizAttrConfig, graphvizEdgeConfig 
+        from src.config import graphvizConfig, graphvizAttrConfig, graphvizEdgeConfig 
 
         dot = graphviz.Graph(**graphvizConfig)        
         
@@ -29,7 +29,7 @@ class Graph:
                     dot.edge(str(u), str(v), **graphvizEdgeConfig)
 
         try:
-            dot.render(f'./../img/{id(self)}', format='png', cleanup=True)
+            dot.render(f'./img/{id(self)}', format='png', cleanup=True)
         except Exception as e:
             print(f'Error rendering graph: {e}')
             print(f'Current path: {getcwd()}')
