@@ -15,6 +15,9 @@ class Graph:
             print(f'Error reading graph: {e}')
             print(f'Current path: {getcwd()}')
 
+    def neighbors(self, u: int) -> list[int]:
+        return self.adjList[u]
+
     def draw(self) -> graphviz.Graph:
         from src.config import graphvizConfig, graphvizAttrConfig, graphvizEdgeConfig 
 
