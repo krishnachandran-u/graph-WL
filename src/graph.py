@@ -20,7 +20,7 @@ class Graph:
     def neighbors(self, u: int) -> list[int]:
         return self.adjList[u]
 
-    def draw(self, save: bool = False, color: bool = False, color_map: dict[int, int] = None) -> graphviz.Graph:
+    def draw(self, save: bool = False, name: str = None, color: bool = False, color_map: dict[int, int] = None) -> graphviz.Graph:
         if color ^ (color_map is not None):
             raise ValueError('color and colors must be both True or False') 
 
@@ -40,7 +40,8 @@ class Graph:
 
         if save:
             try:
-                dot.render(f'./img/{id(self)}', format='png', cleanup=True)
+                name = name if name is not None else id(self)
+                dot.render(f'./img/{name}', format='png', cleanup=True)
             except Exception as e:
                 print(f'Error rendering graph: {e}')
                 print(f'Current path: {getcwd()}')
