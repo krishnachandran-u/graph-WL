@@ -1,2 +1,4 @@
 graphviz
 multiset
+matplotlib
+opencv-python
