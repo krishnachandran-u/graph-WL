@@ -1,5 +1,4 @@
 from src.graph import Graph
-from multiset import * 
 import time
 
 def wl1(g: Graph, trace: bool = False) -> tuple[list[dict[int, int]], float] | tuple[dict[int, int], float]:
@@ -12,16 +11,17 @@ def wl1(g: Graph, trace: bool = False) -> tuple[list[dict[int, int]], float] | t
     if trace: 
         colors_stack: list[dict[int, int]] = [colors_prev]
 
-    msets_prev_occ: Multiset = Multiset([0]*len(g.vertices))
+    msets_prev_occ: list[int] = [0]*len(g.vertices)
 
     while True: 
         colors_next: dict[int, int] = {}
-        msets_next: dict[Multiset, list[int]] = {}
+        msets_next: dict[tuple[int], list[int]] = {}
 
         for v in g.vertices:
-            mset_next = Multiset()
+            mset_next: list[int] = [colors_prev[v]] 
             for u in g.neighbors(v):
-                mset_next.add(colors_prev[u])
+                mset_next.append(colors_prev[u])
+            mset_next = tuple(sorted(mset_next))
             msets_next[mset_next] = msets_next.get(mset_next, []) + [v] 
     
         for i, mset in enumerate(msets_next.keys()):
@@ -31,13 +31,13 @@ def wl1(g: Graph, trace: bool = False) -> tuple[list[dict[int, int]], float] | t
         if trace: 
             colors_stack.append(colors_next)
 
-        msets_next_occ = Multiset([len(v) for v in msets_next.values()])
+        msets_next_occ = [len(v) for v in msets_next.values()]
 
-        if msets_next_occ == msets_prev_occ:
+        if msets_prev_occ == sorted(msets_next_occ): 
             break
 
         colors_prev = colors_next
-        msets_prev_occ = msets_next_occ
+        msets_prev_occ = sorted(msets_next_occ)
 
     end_time = time.perf_counter()
     exec_time = end_time - start_time

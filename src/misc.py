@@ -3,7 +3,14 @@ import cv2
 
 def get_distinct_colors(n: int):
     cmap = plt.cm.get_cmap('tab20', n)
-    return [cmap(i) for i in range(n)]
+    cmap = [cmap(i) for i in range(n)] 
+
+    def rgba_to_hex(r, g, b, a):
+        return "#{:02x}{:02x}{:02x}".format(int(r * 255), int(g * 255), int(b * 255))
+    
+    hex_colors = [rgba_to_hex(r, g, b, a) for (r, g, b, a) in cmap]
+
+    return hex_colors
 
 def vconcat_resize(img_list, interpolation  
                    = cv2.INTER_CUBIC): 

@@ -24,14 +24,11 @@ class Graph:
         if color ^ (color_map is not None):
             raise ValueError('color and colors must be both True or False') 
 
-        if color:
-            distinct_colors = get_distinct_colors(len(set(color_map.values())))
-
-        hex_map = {v: distinct_colors[color_map[v]] for v in self.vertices}
-
         dot = graphviz.Graph(**graphvizConfig)        
 
         if color:
+            distinct_colors = get_distinct_colors(len(set(color_map.values())))
+            hex_map = {v: distinct_colors[color_map[v]] for v in self.vertices}
             for vertex in self.vertices: dot.node(str(vertex), style='filled', fillcolor=hex_map[vertex])
         else:
             for vertex in self.vertices: dot.node(str(vertex))
