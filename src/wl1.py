@@ -32,17 +32,24 @@ def wl1(g: Graph, trace: bool = False) -> tuple[list[dict[int, int]], float] | t
             colors_stack.append(colors_next)
 
         msets_next_occ = [len(v) for v in msets_next.values()]
+        msets_next_occ.sort()
 
-        if msets_prev_occ == sorted(msets_next_occ): 
+        if msets_prev_occ == msets_next_occ:
             break
 
         colors_prev = colors_next
-        msets_prev_occ = sorted(msets_next_occ)
+        msets_prev_occ = msets_next_occ 
 
     end_time = time.perf_counter()
     exec_time = end_time - start_time
 
     if trace: 
-        return colors_stack, exec_time
+        return colors_stack, msets_next_occ, exec_time
     else: 
-        return colors_next, exec_time
+        return colors_next, msets_next_occ, exec_time
+
+def check_wl1(g1: Graph, g2: Graph) -> bool:
+    _, msets_next_occ1, _ = wl1(g1)
+    _, msets_next_occ2, _ = wl1(g2)
+
+    return msets_next_occ1 == msets_next_occ2
