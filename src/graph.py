@@ -3,6 +3,7 @@ import graphviz
 import json
 from src.config import graphvizConfig, graphvizAttrConfig, graphvizEdgeConfig 
 from src.misc import get_distinct_colors
+from pprint import pprint
 class Graph:
     """ use consecutive natural numbers starting from 0 as vertex labels"""
 
@@ -28,6 +29,8 @@ class Graph:
 
         if color:
             distinct_colors = get_distinct_colors(len(set(color_map.values())))
+            # print(distinct_colors)
+            # pprint(color_map, width=1)
             hex_map = {v: distinct_colors[color_map[v]] for v in self.vertices}
             for vertex in self.vertices: dot.node(str(vertex), style='filled', fillcolor=hex_map[vertex])
         else:

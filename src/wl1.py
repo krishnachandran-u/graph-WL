@@ -4,8 +4,10 @@ import time
 def wl1(g: Graph, trace: bool = False) -> tuple[list[dict[int, int]], float] | tuple[dict[int, int], float]:
     start_time = time.perf_counter()
 
+    len_neighbours_min: int = min([len(g.neighbors(v)) for v in g.vertices])
+
     colors_prev: dict[int, int] = {
-        v: 0 for v in g.vertices
+        v: len(g.neighbors(v)) - len_neighbours_min for v in g.vertices
     }
 
     if trace: 
