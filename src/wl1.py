@@ -18,11 +18,11 @@ def wl1(g: Graph, trace: bool = False) -> tuple[list[dict[int, int]], float] | t
         msets_next: dict[tuple[int], list[int]] = {}
 
         for v in g.vertices:
-            mset_next: list[int] = [colors_prev[v]] 
+            mset_next: list[int] = [] 
             for u in g.neighbors(v):
                 mset_next.append(colors_prev[u])
             mset_next = tuple(sorted(mset_next))
-            msets_next[mset_next] = msets_next.get(mset_next, []) + [v] 
+            msets_next[(colors_prev[v], mset_next)] = msets_next.get((colors_prev[v], mset_next), []) + [v] 
     
         for i, mset in enumerate(msets_next.keys()):
             for v in msets_next[mset]:
