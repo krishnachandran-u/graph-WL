@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
-import cv2
+from cv2 import imread, vconcat, imwrite
+from os import remove
 
 def get_distinct_colors(n: int):
     cmap = plt.cm.get_cmap('tab20', n)
@@ -12,13 +13,11 @@ def get_distinct_colors(n: int):
 
     return hex_colors
 
-def vconcat_resize(img_list, interpolation  
-                   = cv2.INTER_CUBIC): 
-    w_min = min(img.shape[1]  
-                for img in img_list) 
-      
-    im_list_resize = [cv2.resize(img, 
-                      (w_min, int(img.shape[0] * w_min / img.shape[1])), 
-                                 interpolation = interpolation) 
-                      for img in img_list] 
-    return cv2.vconcat(im_list_resize) 
+def concat_images(names: list[str], savePath: str = "untitled", cleanup: bool = True):
+    images = [imread(f'./img/{name}') for name in names]
+    output = vconcat(images)
+    imwrite(f'./img/{savePath}', output)
+    if cleanup:
+        for name in names:
+            file_path = f'./img/{name}'
+            remove(file_path)
