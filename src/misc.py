@@ -13,7 +13,7 @@ def get_distinct_colors(n: int):
 
     return hex_colors
 
-def concat_images(names: list[str], savePath: str = "untitled", cleanup: bool = True):
+def concat_images_ver(names: list[str], savePath: str = "untitled", cleanup: bool = True):
     images = [imread(f'./img/{name}') for name in names]
     output = vconcat(images)
     imwrite(f'./img/{savePath}', output)

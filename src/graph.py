@@ -49,3 +49,21 @@ class Graph:
                 print(f'Current path: {getcwd()}')
 
         return dot
+
+    def drawWLk(self, colorMap: dict[tuple, int], save: bool = False, name: str = None):
+
+        dot = graphviz.Graph(**graphvizConfig)
+
+        enumColors = {v: i for i, v in enumerate(set(colorMap.values()))}
+        distinctColors = get_distinct_colors(len(set(colorMap.values())))
+        hexMap = {t: distinctColors[enumColors[colorMap[t]]] for t in colorMap.keys()}
+        for t in colorMap.keys():
+            dot.node(str(t), style='"rounded,filled"', fillcolor=hexMap[t], shape='box')
+
+        if save:
+            try:
+                name = name if name is not None else id(self)
+                dot.render(f'./img/{name}', format='png', cleanup=True)
+            except Exception as e:
+                print(f'Error rendering graph: {e}')
+                print(f'Current path: {getcwd()}')
