@@ -28,10 +28,9 @@ class Graph:
         dot = graphviz.Graph(**graphvizConfig)        
 
         if color:
+            enum_colors = {v: i for i, v in enumerate(set(color_map.values()))}
             distinct_colors = get_distinct_colors(len(set(color_map.values())))
-            # print(distinct_colors)
-            # pprint(color_map, width=1)
-            hex_map = {v: distinct_colors[color_map[v]] for v in self.vertices}
+            hex_map = {v: distinct_colors[enum_colors[color_map[v]]] for v in self.vertices}
             for vertex in self.vertices: dot.node(str(vertex), style='filled', fillcolor=hex_map[vertex])
         else:
             for vertex in self.vertices: dot.node(str(vertex))
