@@ -16,8 +16,8 @@ def WL1(g: Graph, trace: bool = False) -> tuple[list[dict[int, int]], list[int],
         colorsStack = [colorsPrev]
 
     colorsPrevHash: dict[int, int] = {} 
-    for v, LenNeighbors in colorsPrev.items():
-        colorsPrevHash[LenNeighbors] = colorsPrevHash.get(LenNeighbors, 0) + 1
+    for v, color in colorsPrev.items():
+        colorsPrevHash[color] = colorsPrevHash.get(color, 0) + 1
 
     colorsPrevOcc: list[int] = sorted(list(colorsPrevHash.values()))
 
@@ -26,11 +26,11 @@ def WL1(g: Graph, trace: bool = False) -> tuple[list[dict[int, int]], list[int],
         colorsNextHash: dict[int, int] = {}
 
         for v in g.vertices:
-            colorsNextV: list[int] = [] 
+            colorNextV: list[int] = [] 
             for u in g.neighbors(v):
-                colorsNextV.append(colorsPrev[u])
-            colorsNextV = tuple(sorted(colorsNextV))
-            colorsNext[v] = hash(colorsNextV)
+                colorNextV.append(colorsPrev[u])
+            colorNextV = tuple(sorted(colorNextV))
+            colorsNext[v] = hash(colorNextV)
             colorsNextHash[colorsNext[v]] = colorsNextHash.get(colorsNext[v], 0) + 1
 
         colorsNextOcc: list[int] = sorted(list(colorsNextHash.values()))
