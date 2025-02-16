@@ -1,6 +1,7 @@
 from src.graph import Graph
 from itertools import combinations_with_replacement
 from time import perf_counter
+from pprint import pprint
 
 def WLk(g: Graph, k: int, trace: bool = False) -> tuple[list[dict[tuple[int], int]], list[int], float] | tuple[dict[tuple[int], int], list[int], float]:
     if not 1 <= k <= len(g.vertices):
@@ -8,7 +9,7 @@ def WLk(g: Graph, k: int, trace: bool = False) -> tuple[list[dict[tuple[int], in
 
     startTime = perf_counter()
 
-    kTuples: set[tuple[int]] = [] 
+    kTuples: set[tuple[int]] = set()
     for comb in combinations_with_replacement(g.vertices, k):
         kTuples.add(comb)
 
@@ -39,12 +40,12 @@ def WLk(g: Graph, k: int, trace: bool = False) -> tuple[list[dict[tuple[int], in
         colorsNextHash: dict[int, int] = dict()
 
         for t in kTuples:
-            colorNextT: list[int] = [colorsPrev[t]]
+            colorNextT: list[tuple[int]] = [(colorsPrev[t],)]
             for i, v in enumerate(t):
+                # print(f'{v}: {g.neighbors(v)}')
                 colorNextV: list[int] = []
                 for u in g.neighbors(v):
-                    if u in t:
-                        colorNextV.append(colorsPrev[sorted(t[:i] + (u,) + t[i+1:])])
+                    colorNextV.append(colorsPrev[tuple(sorted(t[:i] + (u,) + t[i+1:]))])
                 colorNextT.append(tuple(sorted(colorNextV)))
             colorsNext[t] = hash(tuple(sorted(colorNextT)))
             colorsNextHash[colorsNext[t]] = colorsNextHash.get(colorsNext[t], 0) + 1

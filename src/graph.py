@@ -58,7 +58,8 @@ class Graph:
         distinctColors = get_distinct_colors(len(set(colorMap.values())))
         hexMap = {t: distinctColors[enumColors[colorMap[t]]] for t in colorMap.keys()}
         for t in colorMap.keys():
-            dot.node(str(t), style='"rounded,filled"', fillcolor=hexMap[t], shape='box')
+            # dot.node(str(t), style='"rounded,filled"', fillcolor=hexMap[t], shape='box')
+            dot.node(str(t), style='rounded,filled', fillcolor=hexMap[t], shape='box')
 
         if save:
             try:
