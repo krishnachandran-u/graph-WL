@@ -26,45 +26,39 @@ def WLk(g: Graph, k: int, trace: bool = False) -> tuple[list[dict[tuple[int], in
                     colorPrevT.append(2)
         colorsPrev[t] = hash(tuple(sorted(colorPrevT)))
 
+    colorsPrevEnum: dict[int, int] = {color: i for i, color in enumerate(list(dict.fromkeys(colorsPrev.values())))}
+    colorsPrev = {t: colorsPrevEnum[colorsPrev[t]] for t in kTuples}
+
     if trace:
         colorsStack = [colorsPrev]
 
-    colorsPrevHash: dict[int, int] = dict()
-    for color in colorsPrev.values():
-        colorsPrevHash[color] = colorsPrevHash.get(color, 0) + 1
-
-    colorsPrevOcc: list[int] = sorted(list(colorsPrevHash.values()))
-
     while True:
         colorsNext: dict[tuple[int], int] = dict() 
-        colorsNextHash: dict[int, int] = dict()
 
         for t in kTuples:
             colorNextT: list[tuple[int]] = [(colorsPrev[t],)]
             for i, v in enumerate(t):
-                # print(f'{v}: {g.neighbors(v)}')
                 colorNextV: list[int] = []
                 for u in g.neighbors(v):
                     colorNextV.append(colorsPrev[tuple(sorted(t[:i] + (u,) + t[i+1:]))])
                 colorNextT.append(tuple(sorted(colorNextV)))
             colorsNext[t] = hash(tuple(sorted(colorNextT)))
-            colorsNextHash[colorsNext[t]] = colorsNextHash.get(colorsNext[t], 0) + 1
 
-        colorsNextOcc: list[int] = sorted(list(colorsNextHash.values()))
+        colorsNextEnum: dict[int, int] = {color: i for i, color in enumerate(list(dict.fromkeys(colorsNext.values())))}
+        colorsNext = {t: colorsNextEnum[colorsNext[t]] for t in kTuples}
 
         if trace:
             colorsStack.append(colorsNext)
 
-        if colorsNextOcc == colorsPrevOcc:
+        if colorsNext == colorsPrev:
             break
 
         colorsPrev = colorsNext
-        colorsPrevOcc = colorsNextOcc
 
-        endTime = perf_counter()
-        execTime = endTime - startTime
+    endTime = perf_counter()
+    execTime = endTime - startTime
 
-        if trace:
-            return colorsStack, colorsNextOcc, execTime
-        else:
-            return colorsNext, colorsNextOcc, execTime
+    if trace:
+        return colorsStack, execTime
+    else:
+        return colorsNext, execTime
