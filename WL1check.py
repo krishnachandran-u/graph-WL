@@ -3,7 +3,7 @@ from src.WL1 import checkWL1
 
 if __name__ == "__main__":
     g0 = Graph('test.json', 'test0')
-    g1 = Graph('test.json', 'test1')
+    g1 = Graph('test.json', 'test0iso')
 
     if checkWL1(g0, g1):
         print('Same color classes')

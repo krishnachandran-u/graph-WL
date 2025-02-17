@@ -2,7 +2,21 @@ from src.graph import Graph
 import time
 
 def checkWL1(g1: Graph, g2: Graph) -> bool:
-    raise NotImplementedError
+    colors1, _ = WL1(g1)
+    colors2, _ = WL1(g2)
+
+    colors1Hash: dict[int, int] = dict()  
+    colors2Hash: dict[int, int] = dict()
+
+    for color in colors1.values():
+        colors1Hash[color] = colors1Hash.get(color, 0) + 1
+    for color in colors2.values():
+        colors2Hash[color] = colors2Hash.get(color, 0) + 1
+
+    colors1Occ: list[int] = list(sorted(colors1Hash.values()))
+    colors2Occ: list[int] = list(sorted(colors2Hash.values()))
+
+    return colors1Occ == colors2Occ
 
 def WL1(g: Graph, trace: bool = False) -> tuple[list[dict[int, int]], float] | tuple[dict[int, int], float]:
     startTime = time.perf_counter()
