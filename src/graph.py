@@ -21,6 +21,12 @@ class Graph:
     def neighbors(self, u: int) -> list[int]:
         return self.adjList[u]
 
+    def nonNeighbors(self, u: int) -> list[int]:
+        return [v for v in self.vertices if v not in self.adjList[u] and v != u]
+
+    def adjacent(self, u: int, v: int) -> bool:
+        return v in self.adjList[u]
+
     def draw(self, save: bool = False, name: str = None, color: bool = False, color_map: dict[int, int] = None) -> graphviz.Graph:
         if color ^ (color_map is not None):
             raise ValueError('color and colors must be both True or False') 

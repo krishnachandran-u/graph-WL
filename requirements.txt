@@ -2,3 +2,4 @@ graphviz
 multiset
 matplotlib
 opencv-python
+bidict
