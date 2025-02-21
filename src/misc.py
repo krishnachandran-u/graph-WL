@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
-from cv2 import imread, vconcat, imwrite
-from os import remove
+import cv2
+import os
+import numpy as np
 
 def get_distinct_colors(n: int):
     cmap = plt.cm.get_cmap('tab20', n)
@@ -13,11 +14,38 @@ def get_distinct_colors(n: int):
 
     return hex_colors
 
-def concat_images_ver(names: list[str], savePath: str = "untitled", cleanup: bool = True):
-    images = [imread(f'./img/{name}') for name in names]
-    output = vconcat(images)
-    imwrite(f'./img/{savePath}', output)
+from PIL import Image
+
+def concat_images(img_names: list[str], direction: str = "h", save_path: str = "concatenated_image.jpg", cleanup: bool = True):
+    images = [Image.open(f'./img/{img_name}') for img_name in img_names]
+
+    max_width = max(img.width for img in images)
+    max_height = max(img.height for img in images)
+
+    if direction == "h":  
+        new_width = sum(img.width for img in images)
+        new_height = max_height
+    elif direction == "v": 
+        new_width = max_width
+        new_height = sum(img.height for img in images)
+    else:
+        raise ValueError("Direction must be 'h' (horizontal) or 'v' (vertical)")
+
+    new_image = Image.new("RGB", (new_width, new_height), "white")
+
+    offset = 0
+    for img in images:
+        if direction == "h":
+            new_image.paste(img, (offset, (max_height - img.height) // 2))  
+            offset += img.width
+        else:
+            new_image.paste(img, ((max_width - img.width) // 2, offset))  
+            offset += img.height
+
+    new_image.save(f"./img/{save_path}")
+
     if cleanup:
-        for name in names:
-            file_path = f'./img/{name}'
-            remove(file_path)
+        for img_name in img_names:
+            os.remove(f'./img/{img_name}')
+    
+    return new_image

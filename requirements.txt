@@ -3,3 +3,4 @@ multiset
 matplotlib
 opencv-python
 bidict
+pillow

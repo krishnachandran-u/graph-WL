@@ -1,6 +1,6 @@
 from src.graph import Graph
 from src.WLk import WLk
-from src.misc import concat_images_ver
+from src.misc import concat_images
 
 if __name__ == "__main__":
     g = Graph('test.json', 'test1')
@@ -12,4 +12,4 @@ if __name__ == "__main__":
     # concat_images_ver([f'test1_{i}.png' for i in range(len(colors_stack))], savePath='test1.png', cleanup=True)
     for i, colors in enumerate(colors_map):
         g.drawWLk(save=True, name=f'test1_{i}', colorMap=colors)
-    concat_images_ver([f'test1_{i}.png' for i in range(len(colors_map))], savePath='test1.png', cleanup=True)
+    concat_images([f'test1_{i}.png' for i in range(len(colors_map))], direction="v", save_path='test1.png', cleanup=True)
