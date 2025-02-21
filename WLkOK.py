@@ -11,5 +11,5 @@ if __name__ == "__main__":
     #     g.draw(save=True, name=f'test1_{i}', color=True, color_map=colors)
     # concat_images_ver([f'test1_{i}.png' for i in range(len(colors_stack))], savePath='test1.png', cleanup=True)
     for i, colors in enumerate(colors_map):
-        g.drawWLk(save=True, name=f'test1_{i}', colorMap=colors)
+        g.drawWLk(save=True, name=f'test1_{i}', colorMap=colors, caption=str(exec_time))
     concat_images([f'test1_{i}.png' for i in range(len(colors_map))], direction="v", save_path='test1.png', cleanup=True)

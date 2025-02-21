@@ -7,5 +7,5 @@ if __name__ == "__main__":
     colors_stack, exec_time = WL1(g, trace=True)
     print(f'Execution time: {exec_time}')
     for i, colors in enumerate(colors_stack):
-        g.draw(save=True, name=f'test1_{i}', color=True, color_map=colors)
+        g.draw(save=True, name=f'test1_{i}', color=True, color_map=colors, caption = str(exec_time))
     concat_images([f'test1_{i}.png' for i in range(len(colors_stack))], direction="v", save_path='test1.png', cleanup=True)

@@ -1,7 +1,7 @@
 from os import getcwd
 import graphviz
 import json
-from src.config import graphvizConfig, graphvizAttrConfig, graphvizEdgeConfig 
+from src.config import graphvizConfig, graphvizAttrConfig, graphvizEdgeConfig , graphvizCaptionConfig
 from src.misc import get_distinct_colors
 from pprint import pprint
 class Graph:
@@ -27,7 +27,7 @@ class Graph:
     def adjacent(self, u: int, v: int) -> bool:
         return v in self.adjList[u]
 
-    def draw(self, save: bool = False, name: str = None, color: bool = False, color_map: dict[int, int] = None) -> graphviz.Graph:
+    def draw(self, save: bool = False, name: str = None, color: bool = False, color_map: dict[int, int] = None, caption: str = None) -> graphviz.Graph:
         if color ^ (color_map is not None):
             raise ValueError('color and colors must be both True or False') 
 
@@ -46,6 +46,9 @@ class Graph:
                 if u < v:
                     dot.edge(str(u), str(v), **graphvizEdgeConfig)
 
+        if caption is not None:
+            dot.attr(label=caption, **graphvizCaptionConfig)
+
         if save:
             try:
                 name = name if name is not None else id(self)
@@ -56,7 +59,7 @@ class Graph:
 
         return dot
 
-    def drawWLk(self, colorMap: dict[tuple, int], save: bool = False, name: str = None):
+    def drawWLk(self, colorMap: dict[tuple, int], save: bool = False, name: str = None, caption: str = None):
 
         dot = graphviz.Graph(**graphvizConfig)
 
@@ -66,6 +69,9 @@ class Graph:
         for t in colorMap.keys():
             # dot.node(str(t), style='"rounded,filled"', fillcolor=hexMap[t], shape='box')
             dot.node(str(t), style='rounded,filled', fillcolor=hexMap[t], shape='box')
+
+        if caption is not None:
+            dot.attr(label=caption, **graphvizCaptionConfig)
 
         if save:
             try:

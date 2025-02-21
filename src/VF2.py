@@ -1,9 +1,10 @@
 from src.graph import Graph
 from bidict import bidict
-from pprint import pprint
 from copy import deepcopy
+import time
 
 def VF2(g1: Graph, g2: Graph) -> bool:
+    startTime = time.perf_counter()
     matched: bidict[int, int] = bidict() 
     unv1: list[int] = deepcopy(g1.vertices)
     unv2: list[int] = deepcopy(g2.vertices)
@@ -49,4 +50,7 @@ def VF2(g1: Graph, g2: Graph) -> bool:
                     unv2.append(v2)
         return None
 
-    return VF2Rec(matched, unv1, unv2)
+    mapping = VF2Rec(matched, unv1, unv2)
+    endTime = time.perf_counter()
+    execTime = endTime - startTime
+    return mapping, execTime

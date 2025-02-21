@@ -8,7 +8,7 @@ if __name__ == "__main__":
     g0 = Graph('test.json', 'test0')
     g1 = Graph('test.json', 'test0iso')
 
-    matched: bidict = VF2(g0, g1)
+    matched, execTime = VF2(g0, g1)
 
     if matched is not None:
         matchedDict = dict(matched)
@@ -16,8 +16,8 @@ if __name__ == "__main__":
         pprint(matchedDict, width=1)
         colors1: dict = {v: i for i, v in enumerate(matchedDict.keys())}
         colors2: dict = {v: i for i, v in enumerate(matchedDict.values())}
-        g0.draw(save=True, name='test0', color=True, color_map=colors1)
-        g1.draw(save=True, name='test0iso', color=True, color_map=colors2)
+        g0.draw(save=True, name='test0', color=True, color_map=colors1, caption=str(execTime))
+        g1.draw(save=True, name='test0iso', color=True, color_map=colors2, caption=str(execTime))
         concat_images(['test0.png', 'test0iso.png'], direction="h", save_path='concatImage.png', cleanup=True)
     else: 
         print("Not isomorphic")

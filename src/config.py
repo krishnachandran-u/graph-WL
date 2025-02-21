@@ -18,3 +18,8 @@ graphvizEdgeConfig = {
     'labeljust': 'c', 
     'margin': '0.1', 
 }
+
+graphvizCaptionConfig = {
+    'fontname': 'Courier Prime Bold',
+    'fontsize': '10'
+}
