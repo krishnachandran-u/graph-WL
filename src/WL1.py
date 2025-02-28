@@ -5,18 +5,23 @@ def checkWL1(g1: Graph, g2: Graph) -> bool:
     colors1, _ = WL1(g1)
     colors2, _ = WL1(g2)
 
-    colors1Hash: dict[int, int] = dict()  
-    colors2Hash: dict[int, int] = dict()
+    colors1Occ: dict = {}
+    colors2Occ: dict = {}
 
     for color in colors1.values():
-        colors1Hash[color] = colors1Hash.get(color, 0) + 1
+        colors1Occ[color] = colors1Occ.get(color, 0) + 1
     for color in colors2.values():
-        colors2Hash[color] = colors2Hash.get(color, 0) + 1
+        colors2Occ[color] = colors2Occ.get(color, 0) + 1
 
-    colors1Occ: list[int] = list(sorted(colors1Hash.values()))
-    colors2Occ: list[int] = list(sorted(colors2Hash.values()))
+    for color, occ in colors1Occ.items():
+        if occ != colors2Occ.get(color, 0):
+            return False
+    
+    for color, occ in colors2Occ.items():
+        if occ != colors1Occ.get(color, 0):
+            return False
 
-    return colors1Occ == colors2Occ
+    return True
 
 def WL1(g: Graph, trace: bool = False) -> tuple[list[dict[int, int]], float] | tuple[dict[int, int], float]:
     startTime = time.perf_counter()
