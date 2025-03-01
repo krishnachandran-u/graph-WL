@@ -6,6 +6,7 @@ from src.graph import Graph
 from pprint import pprint
 import subprocess
 import os
+from itertools import combinations
 
 def check_isomorphism(graph1_json, graph2_json):
     G1 = nx.Graph(graph1_json)
@@ -22,10 +23,13 @@ def wl1xnetworkx(filename):
     }
     with open(f'./data/{filename}', 'r') as f:
         data: dict = json.loads(f.read())
-    for key in data:
-        networkx_result = check_isomorphism(data[key], data[key])
+    key_pairs = list(combinations(data.keys(), 2)) 
+    print(f'Comparing {len(key_pairs)} pairs of graphs')
+    for i, item in enumerate(key_pairs):
+        key1, key2 = item
+        networkx_result = check_isomorphism(data[key1], data[key2])
 
-        g0, g1 = Graph(filename, key), Graph(filename, key)
+        g0, g1 = Graph(filename, key1), Graph(filename, key2)
         WL1_result = checkWL1(g0, g1)
 
         if networkx_result and WL1_result:
@@ -36,6 +40,7 @@ def wl1xnetworkx(filename):
             result["false positive"] += 1
         else:
             result["true negative"] += 1
+        print(f'Processed {i+1}/{len(key_pairs)} pairs of graphs')
     return result
 
 if __name__ == "__main__":

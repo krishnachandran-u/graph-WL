@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import cv2
 import os
 import numpy as np
+import itertools
 
 def get_distinct_colors(n: int):
     cmap = plt.cm.get_cmap('tab20', n)
@@ -49,3 +50,16 @@ def concat_images(img_names: list[str], direction: str = "h", save_path: str = "
             os.remove(f'./img/{img_name}')
     
     return new_image
+
+def generate_permutation_matrices(n):
+    permutations = itertools.permutations(range(n))
+    
+    permutation_matrices = []
+    
+    for perm in permutations:
+        matrix = np.zeros((n, n), dtype=int)
+        for i, row in enumerate(perm):
+            matrix[i, row] = 1
+        permutation_matrices.append(matrix)
+    
+    return permutation_matrices
