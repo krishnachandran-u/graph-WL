@@ -1,0 +1,14 @@
+{
+  "4": {
+    "true positive": 50,
+    "true negative": 1770,
+    "false positive": 0,
+    "false negative": 196
+  },
+  "5": {
+    "true positive": 1371,
+    "true negative": 500540,
+    "false positive": 0,
+    "false negative": 21865
+  }
+}
